@@ -1,72 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cardArray = [
-        { name: 'A', img: 'A' },
-        { name: 'A', img: 'A' },
-        { name: 'B', img: 'B' },
-        { name: 'B', img: 'B' },
-        { name: 'C', img: 'C' },
-        { name: 'C', img: 'C' },
-        { name: 'D', img: 'D' },
-        { name: 'D', img: 'D' },
-        { name: 'E', img: 'E' },
-        { name: 'E', img: 'E' },
-        { name: 'F', img: 'F' },
-        { name: 'F', img: 'F' },
-        { name: 'G', img: 'G' },
-        { name: 'G', img: 'G' },
-        { name: 'H', img: 'H' },
-        { name: 'H', img: 'H' }
-    ]
+    const cells = document.querySelectorAll('.cell');
+    const statusDisplay = document.getElementById('status');
+    const resetButton = document.getElementById('resetButton');
+    let currentPlayer = 'X';
+    let board = Array(9).fill(null);
+    let isGameActive = true;
 
-    cardArray.sort(() => 0.5 - Math.random());
+    const winningConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
 
-    const gameBoard = document.getElementById('gameBoard');
-    let cardsChosen = [];
-    let cardsChosenId = [];
-    let cardsWon = [];
+    function handleCellClick(event) {
+        const cell = event.target;
+        const cellIndex = parseInt(cell.getAttribute('data-index'));
 
-    function createBoard() {
-        for (let i = 0; i < cardArray.length; i++) {
-            const card = document.createElement('div');
-            card.setAttribute('data-id', i);
-            card.classList.add('card');
-            card.addEventListener('click', flipCard);
-            gameBoard.appendChild(card);
+        if (board[cellIndex] !== null || !isGameActive) {
+            return;
         }
-    }
 
-    function checkForMatch() {
-        const cards = document.querySelectorAll('.card');
-        const [optionOneId, optionTwoId] = cardsChosenId;
-        if (cardsChosen[0] === cardsChosen[1]) {
-            cardsWon.push(cardsChosen);
-            cards[optionOneId].removeEventListener('click', flipCard);
-            cards[optionTwoId].removeEventListener('click', flipCard);
+        board[cellIndex] = currentPlayer;
+        cell.textContent = currentPlayer;
+
+        if (checkWin()) {
+            statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+            isGameActive = false;
+        } else if (board.every(cell => cell !== null)) {
+            statusDisplay.textContent = 'Draw!';
+            isGameActive = false;
         } else {
-            cards[optionOneId].classList.remove('flipped');
-            cards[optionTwoId].classList.remove('flipped');
-            cards[optionOneId].textContent = '';
-            cards[optionTwoId].textContent = '';
-        }
-        cardsChosen = [];
-        cardsChosenId = [];
-        if (cardsWon.length === cardArray.length / 2) {
-            alert('Congratulations! You found all the matches!');
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
         }
     }
 
-    function flipCard() {
-        const cardId = this.getAttribute('data-id');
-        if (cardsChosen.length < 2 && !this.classList.contains('flipped')) {
-            cardsChosen.push(cardArray[cardId].name);
-            cardsChosenId.push(cardId);
-            this.classList.add('flipped');
-            this.textContent = cardArray[cardId].img;
-            if (cardsChosen.length === 2) {
-                setTimeout(checkForMatch, 500);
-            }
-        }
+    function checkWin() {
+        return winningConditions.some(condition => {
+            const [a, b, c] = condition;
+            return board[a] && board[a] === board[b] && board[a] === board[c];
+        });
     }
 
-    createBoard();
+    function resetGame() {
+        board = Array(9).fill(null);
+        isGameActive = true;
+        currentPlayer = 'X';
+        statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+        cells.forEach(cell => (cell.textContent = ''));
+    }
+
+    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+    resetButton.addEventListener('click', resetGame);
+    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
 });
