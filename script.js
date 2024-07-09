@@ -1,61 +1,192 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const cells = document.querySelectorAll('.cell');
-    const statusDisplay = document.getElementById('status');
-    const resetButton = document.getElementById('resetButton');
-    let currentPlayer = 'X';
-    let board = Array(9).fill(null);
-    let isGameActive = true;
-
-    const winningConditions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    function handleCellClick(event) {
-        const cell = event.target;
-        const cellIndex = parseInt(cell.getAttribute('data-index'));
-
-        if (board[cellIndex] !== null || !isGameActive) {
-            return;
-        }
-
-        board[cellIndex] = currentPlayer;
-        cell.textContent = currentPlayer;
-
-        if (checkWin()) {
-            statusDisplay.textContent = `Player ${currentPlayer} wins!`;
-            isGameActive = false;
-        } else if (board.every(cell => cell !== null)) {
-            statusDisplay.textContent = 'Draw!';
-            isGameActive = false;
-        } else {
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
-        }
-    }
-
-    function checkWin() {
-        return winningConditions.some(condition => {
-            const [a, b, c] = condition;
-            return board[a] && board[a] === board[b] && board[a] === board[c];
-        });
-    }
-
-    function resetGame() {
-        board = Array(9).fill(null);
-        isGameActive = true;
-        currentPlayer = 'X';
-        statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
-        cells.forEach(cell => (cell.textContent = ''));
-    }
-
-    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-    resetButton.addEventListener('click', resetGame);
-    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
-});
+        b1btn.disabled = true; 
+        b2btn.disabled = true; 
+        b4btn.disabled = true; 
+        b6btn.disabled = true; 
+        b8btn.disabled = true; 
+        b9btn.disabled = true; 
+  
+        b3btn.style.color = "red"; 
+        b5btn.style.color = "red"; 
+        b7btn.style.color = "red"; 
+    } 
+    else if ((b2 == '0' || b2 == '0') && (b5 == '0' || 
+        b5 == '0') && (b8 == '0' || b8 == '0')) { 
+        document.getElementById('print') 
+            .innerHTML = "Player 0 won"; 
+        b1btn.disabled = true; 
+        b3btn.disabled = true; 
+        b4btn.disabled = true; 
+        b6btn.disabled = true; 
+        b7btn.disabled = true; 
+        b9btn.disabled = true; 
+  
+        b2btn.style.color = "red"; 
+        b5btn.style.color = "red"; 
+        b8btn.style.color = "red"; 
+    } 
+    else if ((b4 == '0' || b4 == '0') && (b5 == '0' || 
+        b5 == '0') && (b6 == '0' || b6 == '0')) { 
+        document.getElementById('print') 
+            .innerHTML = "Player 0 won"; 
+        b1btn.disabled = true; 
+        b2btn.disabled = true; 
+        b3btn.disabled = true; 
+        b7btn.disabled = true; 
+        b8btn.disabled = true; 
+        b9btn.disabled = true; 
+  
+        b4btn.style.color = "red"; 
+        b5btn.style.color = "red"; 
+        b6btn.style.color = "red"; 
+    } 
+  
+    // Checking of Player 0 finish 
+    // Here, Checking about Tie 
+    else if ((b1 == 'X' || b1 == '0') && (b2 == 'X'
+        || b2 == '0') && (b3 == 'X' || b3 == '0') && 
+        (b4 == 'X' || b4 == '0') && (b5 == 'X' || 
+            b5 == '0') && (b6 == 'X' || b6 == '0') && 
+        (b7 == 'X' || b7 == '0') && (b8 == 'X' || 
+            b8 == '0') && (b9 == 'X' || b9 == '0')) { 
+        document.getElementById('print') 
+            .innerHTML = "Match Tie"; 
+    } 
+    else { 
+  
+        // Here, Printing Result 
+        if (flag == 1) { 
+            document.getElementById('print') 
+                .innerHTML = "Player X Turn"; 
+        } 
+        else { 
+            document.getElementById('print') 
+                .innerHTML = "Player 0 Turn"; 
+        } 
+    } 
+} 
+  
+// Function to reset game 
+function myfunc_2() { 
+    location.reload(); 
+    b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = ''; 
+} 
+  
+// Here onwards, functions check turn of the player 
+// and put accordingly value X or 0 
+flag = 1; 
+function myfunc_3() { 
+    if (flag == 1) { 
+        document.getElementById("b1").value = "X"; 
+        document.getElementById("b1").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b1").value = "0"; 
+        document.getElementById("b1").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_4() { 
+    if (flag == 1) { 
+        document.getElementById("b2").value = "X"; 
+        document.getElementById("b2").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b2").value = "0"; 
+        document.getElementById("b2").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_5() { 
+    if (flag == 1) { 
+        document.getElementById("b3").value = "X"; 
+        document.getElementById("b3").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b3").value = "0"; 
+        document.getElementById("b3").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_6() { 
+    if (flag == 1) { 
+        document.getElementById("b4").value = "X"; 
+        document.getElementById("b4").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b4").value = "0"; 
+        document.getElementById("b4").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_7() { 
+    if (flag == 1) { 
+        document.getElementById("b5").value = "X"; 
+        document.getElementById("b5").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b5").value = "0"; 
+        document.getElementById("b5").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_8() { 
+    if (flag == 1) { 
+        document.getElementById("b6").value = "X"; 
+        document.getElementById("b6").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b6").value = "0"; 
+        document.getElementById("b6").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_9() { 
+    if (flag == 1) { 
+        document.getElementById("b7").value = "X"; 
+        document.getElementById("b7").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b7").value = "0"; 
+        document.getElementById("b7").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_10() { 
+    if (flag == 1) { 
+        document.getElementById("b8").value = "X"; 
+        document.getElementById("b8").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b8").value = "0"; 
+        document.getElementById("b8").disabled = true; 
+        flag = 1; 
+    } 
+} 
+  
+function myfunc_11() { 
+    if (flag == 1) { 
+        document.getElementById("b9").value = "X"; 
+        document.getElementById("b9").disabled = true; 
+        flag = 0; 
+    } 
+    else { 
+        document.getElementById("b9").value = "0"; 
+        document.getElementById("b9").disabled = true; 
+        flag = 1; 
+    } 
+} 
